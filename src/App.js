@@ -30,10 +30,10 @@ function App() {
         <div className="flex items-center space-x-3">
           <p className='text-3xl font-extralight'>Baked with ❤️ by Ashutosh Kumar</p>
           <div className='flex items-center justify-between space-x-3'>
-            <a href="https://github.com/ashusnapx" className="bg-black text-white/80 px-4 py-2 rounded-full">
+            <a href="https://github.com/ashusnapx" target='__blank' className="bg-black text-white/80 px-4 py-2 rounded-full">
               Github
             </a>
-            <a href="https://www.linkedin.com/in/ashusnapx/" className="bg-black text-white/80 px-4 py-2 rounded-full">
+            <a href="https://www.linkedin.com/in/ashusnapx/" className="bg-black text-white/80 px-4 py-2 rounded-full" target='__blank'>
               LinkedIn
             </a>
           </div>
