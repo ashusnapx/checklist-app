@@ -44,6 +44,7 @@ const Checklist = ( { apiKey } ) => {
     }, [ progress ] );
 
     const fetchPlaylistData = ( playlistLink ) => {
+        // console.log( 'Fetching playlist data...' );
         const urlParts = playlistLink.split( '?list=' );
         if ( urlParts.length !== 2 ) {
             alert( 'Invalid playlist link. Please enter a valid YouTube playlist link.' );
@@ -54,6 +55,7 @@ const Checklist = ( { apiKey } ) => {
         const playlistUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${ playlistId }&key=${ apiKey }`;
 
         fetch( playlistUrl )
+            
             .then( ( response ) => response.json() )
             .then( async ( data ) => {
                 const videoIds = data.items.map( ( item ) => item.snippet.resourceId.videoId );
@@ -71,6 +73,7 @@ const Checklist = ( { apiKey } ) => {
             } )
             .catch( ( error ) => console.error( 'Error fetching data:', error ) );
     };
+    
 
     const fetchVideoDuration = async ( videoId ) => {
         const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${ videoId }&key=${ apiKey }&fields=items/contentDetails/duration`;
