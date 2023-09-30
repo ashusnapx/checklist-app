@@ -1,3 +1,12 @@
 # https://www.robotstxt.org/robotstxt.html
+
 User-agent: *
-Disallow:
+Allow: /                  # Allow all content to be crawled
+
+# Disallow specific paths
+Disallow: /private/       # Disallow a specific directory
+Disallow: /admin/         # Disallow another directory
+
+# Disallow specific file types
+Disallow: /*.pdf$         # Disallow PDF files
+Disallow: /*.doc$         # Disallow Word documents
