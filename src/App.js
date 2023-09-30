@@ -34,7 +34,7 @@ function App() {
         </h1>
 
         <p className='text-3xl font-extralight'>Baked with ❤️ by
-          <a href="https://ashusnapx.vercel.app/" className='text-blue-700'> Ashutosh Kumar 📈</a></p>
+          <a href="https://ashusnapx.vercel.app/" className='text-blue-700' target='__blank'> Ashutosh Kumar 📈</a></p>
       </div>
       <hr />
       <InputForm onPlaylistSubmit={handlePlaylistSubmit} />
