@@ -36,7 +36,6 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
 
     const openVideoInNewTab = () => {
         const videoId = video.snippet.resourceId?.videoId;
-        console.log( video );
         if ( videoId ) {
             window.open( `https://www.youtube.com/watch?v=${ videoId }`, '_blank' );
         }
@@ -46,6 +45,7 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
         <div className="bg-white p-4 mb-4 rounded-lg shadow-sm border border-black/20">
             <div
                 className="relative h-40 overflow-hidden mb-4 border border-red-200 p-1 rounded-md cursor-pointer"
+                onClick={openVideoInNewTab}
             >
                 {thumbnail && thumbnail.high && (
                     <img
@@ -56,7 +56,9 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
                 )}
             </div>
             <h3 className="text-xl font-semibold mb-2">{title}</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">{channelTitle}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+                {channelTitle}
+            </p>
             <p className="text-gray-700 dark:text-gray-300 mb-2">
                 Duration: {convertDuration( duration )}
             </p>

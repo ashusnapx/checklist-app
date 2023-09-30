@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import VideoCard from './VideoCard';
+import PlaylistInfo from './PlaylistInfo';
 
 const Checklist = ( { apiKey } ) => {
     const [ playlistData, setPlaylistData ] = useState( null );
@@ -89,8 +90,17 @@ const Checklist = ( { apiKey } ) => {
         fetchPlaylistData( newPlaylistLink );
     };
 
+    const openVideoInNewTab = ( video ) => {
+        const videoId = video.snippet.resourceId?.videoId;
+        if ( videoId ) {
+            window.open( `https://www.youtube.com/watch?v=${ videoId }`, '_blank' );
+        }
+    };
+
+
     return (
         <div className="container mx-auto p-4">
+            <PlaylistInfo playlistData={playlistData} />
             <div className="mb-4">
                 <div className="relative pt-1">
                     
@@ -135,10 +145,12 @@ const Checklist = ( { apiKey } ) => {
                                     channelTitle: item.snippet.channelTitle,
                                     duration: item.contentDetails.duration,
                                     thumbnail: item.snippet.thumbnails,
+                                    resourceId: item.snippet.resourceId,
                                 },
                             }}
                             onDoneClick={handleDoneClick}
                             onNotDoneClick={handleNotDoneClick}
+                            openVideoInNewTab={openVideoInNewTab}
                         />
                     ) )}
             </div>
