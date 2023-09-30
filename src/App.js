@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InputForm from './components/InputForm';
 import Checklist from './components/Checklist';
+import './App.css';
 
 function App() {
   const [ playlistLink, setPlaylistLink ] = useState( '' );
@@ -24,20 +25,16 @@ function App() {
   };
 
   return (
-    <div className={`container mx-auto p-4 ${ mode === 'dark' ? 'dark' : '' }`}>
+    <div className={`container overflow-x-hidden mx-auto p-4 ${ mode === 'dark' ? 'dark' : '' }`}>
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
-        <h1 className='text-3xl font-bold mb-2 md:mb-0'>Youtube Playlist Checklist</h1>
-        <div className="flex items-center space-x-3">
-          <p className='text-3xl font-extralight'>Baked with ❤️ by Ashutosh Kumar</p>
-          <div className='flex items-center justify-between space-x-3'>
-            <a href="https://github.com/ashusnapx" target='__blank' className="bg-black text-white/80 px-4 py-2 rounded-full">
-              Github
-            </a>
-            <a href="https://www.linkedin.com/in/ashusnapx/" className="bg-black text-white/80 px-4 py-2 rounded-full" target='__blank'>
-              LinkedIn
-            </a>
-          </div>
-        </div>
+        <h1 className="relative text-3xl font-semibold mb-2 md:mb-0">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500">
+            Youtube Playlist Checklist
+          </span>
+        </h1>
+
+        <p className='text-3xl font-extralight'>Baked with ❤️ by
+          <a href="https://ashusnapx.vercel.app/" className='text-blue-700'> Ashutosh Kumar 📈</a></p>
       </div>
       <hr />
       <InputForm onPlaylistSubmit={handlePlaylistSubmit} />

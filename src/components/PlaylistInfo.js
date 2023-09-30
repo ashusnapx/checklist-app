@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const PlaylistInfo = ( { playlistData } ) => {
     const [ isTableOpen, setIsTableOpen ] = useState( false );
 
-
     if ( !playlistData || playlistData.length === 0 ) {
         return null;
     }
@@ -14,23 +13,15 @@ const PlaylistInfo = ( { playlistData } ) => {
         title,
         publishedAt,
         updatedAt,
-        playlistId,
-        resourceId,
-        contentDetails,
-        description,
     } = playlistData[ 0 ]?.snippet;
-
-    // console.log(playlistData)
 
     const totalVideos = playlistData.length;
 
-    // Calculate total duration
     const totalDuration = playlistData.reduce(
         ( acc, item ) => acc + parseISO8601Duration( item.contentDetails.duration ),
         0
     );
 
-    // Calculate duration at different speeds
     const speeds = [ 1.0, 1.5, 2.0, 2.5, 3.0 ];
     const durationAtSpeeds = speeds.map( ( speed ) => ( {
         speed,
@@ -40,39 +31,34 @@ const PlaylistInfo = ( { playlistData } ) => {
 
     return (
         <div className="bg-white p-4 mb-4 rounded-lg shadow-lg">
-            <div className="mb-4">
-                <div className="flex items-center justify-between space-x-3">
-                    <img
-                        src={thumbnails.medium.url}
-                        alt={channelTitle}
-                        className="w-64 h-48 rounded-md mr-4"
-                    />
+            <div className="mb-4 flex flex-col sm:flex-row sm:items-start sm:space-x-3">
+                <img
+                    src={thumbnails.medium.url}
+                    alt={channelTitle}
+                    className="w-full h-full rounded-md object-cover sm:w-1/4 sm:h-auto mb-4 sm:mb-0"
+                />
+                <div className="flex-1">
+                    <h2 className="text-3xl font-semibold mb-2 truncate">
+                        {channelTitle}
+                    </h2>
 
-                    
+                    <p className="text-gray-700 dark:text-gray-300 truncate">
+                        Name of Playlist: {title}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300 truncate">
+                        Published At: {new Date( publishedAt ).toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300 truncate">
+                        Last Updated: {new Date( updatedAt ).toLocaleDateString()}
+                    </p>
 
-                    <div className="mr-3">
-                        <h2 className="text-3xl font-semibold mb-2">{channelTitle}</h2>
-                       
-                        <p className="text-gray-700 dark:text-gray-300">
-                            Description/Name of Playlist: {title}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            Published At: {new Date( publishedAt ).toLocaleDateString()}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            Last Updated: {new Date( updatedAt ).toLocaleDateString()}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            {description}
-                        </p>
-                    </div>
-
-                    <div className="mb-4">
-                        <p className="text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="mb-2">
+                        <p className="text-gray-700 dark:text-gray-300 mt-2 truncate">
                             Total Number of Videos: {totalVideos}
                         </p>
-                        <p className="text-gray-700 dark:text-gray-300 mb-2">
-                            Total Hours of Content in Playlist: {formatDuration( totalDuration )}
+                        <p className="text-gray-700 dark:text-gray-300 truncate">
+                            Total Hours of Content in Playlist:{' '}
+                            {formatDuration( totalDuration )}
                         </p>
                     </div>
                 </div>
@@ -114,6 +100,7 @@ const PlaylistInfo = ( { playlistData } ) => {
     );
 };
 
+
 const parseISO8601Duration = ( duration ) => {
     const match = duration.match( /PT(\d+H)?(\d+M)?(\d+S)?/ );
 
@@ -129,9 +116,8 @@ const formatDuration = ( totalSeconds ) => {
     const minutes = Math.floor( ( totalSeconds % 3600 ) / 60 );
     const seconds = totalSeconds % 60;
 
-    return `${ hours.toString().padStart( 2, '0' ) }:${ minutes
-        .toString()
-        .padStart( 2, '0' ) }:${ seconds.toString().padStart( 2, '0' ) }`;
+    return `${ hours.toString().padStart( 2, '0' ) }:${ minutes.toString().padStart( 2, '0' ) }:${ seconds.toString().padStart( 2, '0' ) }`;
 };
+
 
 export default PlaylistInfo;

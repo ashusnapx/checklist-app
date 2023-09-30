@@ -5,6 +5,8 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
     const [ isDone, setIsDone ] = useState(
         localStorage.getItem( `isDone_${ title }` ) === 'true'
     );
+    const [ isTinted, setIsTinted ] = useState( false );
+    const [ isBlinking, setIsBlinking ] = useState( false );
 
     const convertDuration = ( isoDuration ) => {
         if ( !isoDuration ) return 'N/A';
@@ -24,15 +26,25 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
 
     const handleDoneClick = () => {
         setIsDone( true );
+        setIsTinted( true );
+        setIsBlinking( false );
         onDoneClick();
         localStorage.setItem( `isDone_${ title }`, 'true' );
     };
 
     const handleNotDoneClick = () => {
         setIsDone( false );
+        setIsBlinking( true );
         onNotDoneClick();
         localStorage.setItem( `isDone_${ title }`, 'false' );
+        setTimeout( () => {
+            setIsTinted( false ); // Remove green tint
+            setTimeout( () => {
+                setIsBlinking( false ); // Remove blinking red
+            }, 1000 );
+        }, 1000 );
     };
+
 
     const openVideoInNewTab = () => {
         const videoId = video.snippet.resourceId?.videoId;
@@ -42,41 +54,21 @@ const VideoCard = ( { video, onDoneClick, onNotDoneClick } ) => {
     };
 
     return (
-        <div className="bg-white p-4 mb-4 rounded-lg shadow-sm border border-black/20">
-            <div
-                className="relative h-40 overflow-hidden mb-4 border border-red-200 p-1 rounded-md cursor-pointer"
-                onClick={openVideoInNewTab}
-            >
-                {thumbnail && thumbnail.high && (
-                    <img
-                        src={thumbnail.high.url}
-                        alt="Thumbnail"
-                        className="w-full h-full object-cover"
-                    />
-                )}
+        <div
+            className={`bg-white p-4 mb-4 rounded-lg shadow-sm border border-black/20 ${ isTinted ? 'bg-green-100' : ''
+                } ${ isBlinking ? 'animate-blink' : '' }`}
+        >
+            <div className="relative h-40 overflow-hidden mb-4 border border-red-200 p-1 rounded-md cursor-pointer" onClick={openVideoInNewTab}>
+                {thumbnail && thumbnail.high && <img src={thumbnail.high.url} alt="Thumbnail" className="w-full h-full object-cover" />}
             </div>
-            <h3 className="text-xl font-semibold mb-2">{title}</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {channelTitle}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">
-                Duration: {convertDuration( duration )}
-            </p>
+            <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap overflow-ellipsis">{title}</h3>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">{channelTitle}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">Duration: {convertDuration( duration )}</p>
             <div className="flex justify-between space-x-2">
-                <button
-                    onClick={isDone ? null : handleDoneClick}
-                    className={`flex-1 bg-green-500 text-white px-4 py-2 rounded-full ${ isDone ? 'bg-opacity-50 cursor-not-allowed' : ''
-                        }`}
-                    disabled={isDone}
-                >
+                <button onClick={isDone ? null : handleDoneClick} className={`flex-1 bg-green-500 text-white px-4 py-2 rounded-full ${ isDone ? 'bg-opacity-50 cursor-not-allowed' : '' }`} disabled={isDone}>
                     Done
                 </button>
-                <button
-                    onClick={!isDone ? null : handleNotDoneClick}
-                    className={`flex-1 bg-red-500 text-white px-4 py-2 rounded-full ${ !isDone ? 'bg-opacity-50 cursor-not-allowed' : ''
-                        }`}
-                    disabled={!isDone}
-                >
+                <button onClick={!isDone ? null : handleNotDoneClick} className={`flex-1 bg-red-500 text-white px-4 py-2 rounded-full ${ !isDone ? 'bg-opacity-50 cursor-not-allowed' : '' }`} disabled={!isDone}>
                     Not Done
                 </button>
             </div>
